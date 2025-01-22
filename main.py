@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, request, jsonify #追加
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS  # CORSをインポート
 
 from gensim.models import word2vec
 from numpy import negative
@@ -12,6 +13,7 @@ except:
     w2v = word2vec.KeyedVectors.load_word2vec_format(MODEL_FILENAME_WIN, binary=True)
 
 app = Flask(__name__)
+CORS(app)  # CORSを全てのエンドポイントに対して有効にする
 app.config['JSON_AS_ASCII'] = False #日本語文字化け対策
 app.config["JSON_SORT_KEYS"] = False #ソートをそのまま
 
@@ -46,11 +48,6 @@ def near():
             'status':'NO',
             'error':'対応していない単語が使用されました'
         })
-
-    # data = [
-    #     {"name":"山田"},
-    #     {"age":30}
-    # ]
 
     print(get_number)
     
@@ -105,11 +102,6 @@ def calc():
             'error':'対応していない単語が使用されました'
         })
 
-    # data = [
-    #     {"name":"山田"},
-    #     {"age":30}
-    # ]
-
     print(get_number)
     
     data = w2v.most_similar(positive=positiveStr,negative=negativeStr, topn=int(get_number))
@@ -131,6 +123,3 @@ def index():
 ## おまじない
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=80)
-
-
-    
