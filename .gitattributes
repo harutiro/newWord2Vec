@@ -1,0 +1,2 @@
+models/stanby-jobs-200d-word2vector.bin filter=lfs diff=lfs merge=lfs -text
+models/wiki2.vec.pt filter=lfs diff=lfs merge=lfs -text
